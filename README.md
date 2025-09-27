@@ -19,6 +19,64 @@ Asenkron FIFO'lar, aşağıdaki alanlarda yaygın olarak kullanılır:
 - **İletişim Sistemleri**: Ethernet, USB veya diğer yüksek hızlı seri protokollerde veri tamponlama.
 - **Gerçek Zamanlı İşleme**: Sensör verilerinin veya akış verilerinin farklı hızlarda işlenmesi.
 
+# Tasarım Bileşenleri
+
+## Bağlantılar
+Resimde ilgili RTL kodlarının IP integratör ile bağlantılarının tamamı gösterilmektedir.
+
+
+<img width="1806" height="819" alt="Screenshot 2025-09-27 170302" src="https://github.com/user-attachments/assets/d659d452-490f-48f0-b0eb-eb7086e05188" />
+
+
+## async_fifo_rtl_bin_to_gray
+Modüle giren adres, gray code'a dönüştürülerek çıkışa veriliyor.
+
+
+<img width="787" height="364" alt="image" src="https://github.com/user-attachments/assets/bd434d76-c583-48df-8f56-ad77b6691691" />
+
+
+## async_fifo_rtl_empty
+Bu modül 2FF senkronizatörden geçmiş olan write gray kodunu alıyor ve koşullar sağlanırsa read adresini arttırıyor. Koşullar sağlanmazsa read adresi sabit kalıyor.
+
+
+<img width="1034" height="439" alt="image" src="https://github.com/user-attachments/assets/3db7a935-aa21-42b7-97cc-685ffbe021a9" />
+
+
+## async_fifo_rtl_full
+Bu modül async_fifo_rtl_empty'e benzer şekilde çalışıyor. 2FF senkronizatörden geçmiş olan read gray kodunu alıyor ve koşullar sağlanırsa write adresini arttırıyor. Koşullar sağlanmazsa write adresi sabit kalıyor.
+
+
+<img width="1026" height="446" alt="image" src="https://github.com/user-attachments/assets/f149ed46-267c-46f7-8d9d-d6a80372a57c" />
+
+
+## async_fifo_rtl_gray_sync
+Modüle giren read adresi write domaini için gray koda çevirliyor ve bu sonuç 2 FF senkranizatörden geçirilerek çıkışa veriliyor. Aynısı write adresi için de yapılıyor.
+
+
+<img width="1011" height="511" alt="image" src="https://github.com/user-attachments/assets/ef126a16-0d96-4907-9cb9-d4a73433f957" />
+
+
+## async_fifo_rtl_mem
+Belleğimizin bulunduğu ve yazma, okuma işlerimlerinin bulunduğu modüldür.
+
+
+<img width="978" height="713" alt="image" src="https://github.com/user-attachments/assets/987bf311-f168-4e99-88f4-2ccc4d51e99b" />
+
+
+## async_fifo_rtl_reset_sync
+Burada asenkron olarak gelen reset 1 durumuna geçtiği zaman metastabilite riskine karşı 2FF senkronizatörden geçirilmiştir. Yani reset asenkron şekilde, dereset ise senkron şekilde oluşmaktadır.
+
+
+<img width="990" height="514" alt="image" src="https://github.com/user-attachments/assets/7c6c93fb-1e26-4d36-ba78-d4577782d8a0" />
+
+
+## async_fifo_rtl_top
+Tüm modüllerin birleştirildiği, sinyal bağlanıtlarının yapıldığı modüldür. 
+
+
+<img width="750" height="615" alt="image" src="https://github.com/user-attachments/assets/f38fcf0e-2bf1-43b7-83e4-281e4e83de36" />
+
+
 # Test Sonuçları
 
 ### tb_async_fifo_rtl_empty sonuçları:
@@ -36,7 +94,7 @@ Asenkron FIFO'lar, aşağıdaki alanlarda yaygın olarak kullanılır:
 
 ### tb_async_fifo_rtl_reset_sync sonuçları:
 <img width="1884" height="163" alt="image" src="https://github.com/user-attachments/assets/f9eef5b4-f650-4234-a08c-09c8ae11fa41" />
-- Burada sync_rstn sinyali metastabilite oluşmasına karşın 2FF synchronizer'dan geçirilmişstir bundan ötürü gecikme oluşmuştur.
+- Burada sync_rstn sinyali metastabilite oluşmasın riskine karşın 2FF senkronizatörden geçirilmişstir bundan ötürü gecikme oluşmuştur.
 
 ### tb_async_fifo_rtl_top sonuçları:
 <img width="1871" height="299" alt="image" src="https://github.com/user-attachments/assets/0a362388-0ba9-4567-997b-f3ecf7fbfdf6" />
