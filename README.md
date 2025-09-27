@@ -64,7 +64,7 @@ Belleğimizin bulunduğu ve yazma, okuma işlerimlerinin bulunduğu modüldür.
 
 
 ## async_fifo_rtl_reset_sync
-Burada asenkron olarak gelen reset 1 durumuna geçtiği zaman metastabilite riskine karşı 2FF senkronizatörden geçirilmiştir. Yani reset asenkron şekilde, dereset ise senkron şekilde oluşmaktadır.
+Burada asenkron olarak gelen reset 1 durumuna geçtiği zaman metastabilite riskine karşı 2FF senkronizatörden geçirilmiştir. Yani, reset işlemi asenkron bir şekilde gerçekleşirken, dereset işlemi senkron bir şekilde uygulanmaktadır.
 
 
 <img width="990" height="514" alt="image" src="https://github.com/user-attachments/assets/7c6c93fb-1e26-4d36-ba78-d4577782d8a0" />
